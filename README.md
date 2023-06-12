@@ -1,31 +1,15 @@
-## Alias-Free Generative Adversarial Networks (StyleGAN3)<br><sub>Official PyTorch implementation of the NeurIPS 2021 paper</sub>
 
-![Teaser image](./docs/stylegan3-teaser-1920x1006.png)
+## Sound-Guided Semantic Video Generation<br><sub>Official PyTorch implementation of the ECCV 2022 paper</sub>
+
 
 **Alias-Free Generative Adversarial Networks**<br>
-Tero Karras, Miika Aittala, Samuli Laine, Erik H&auml;rk&ouml;nen, Janne Hellsten, Jaakko Lehtinen, Timo Aila<br>
-https://nvlabs.github.io/stylegan3<br>
+Seung Hyun Lee<br>
+https://kuai-lab.github.io/eccv2022sound/<br>
 
-Abstract: *We observe that despite their hierarchical convolutional nature, the synthesis process of typical generative adversarial networks depends on absolute pixel coordinates in an unhealthy manner. This manifests itself as, e.g., detail appearing to be glued to image coordinates instead of the surfaces of depicted objects. We trace the root cause to careless signal processing that causes aliasing in the generator network. Interpreting all signals in the network as continuous, we derive generally applicable, small architectural changes that guarantee that unwanted information cannot leak into the hierarchical synthesis process. The resulting networks match the FID of StyleGAN2 but differ dramatically in their internal representations, and they are fully equivariant to translation and rotation even at subpixel scales. Our results pave the way for generative models better suited for video and animation.*
 
-For business inquiries, please visit our website and submit the form: [NVIDIA Research Licensing](https://www.nvidia.com/en-us/research/inquiries/)
 
-## Release notes
 
-This repository is an updated version of [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch), with several new features:
-- Alias-free generator architecture and training configurations (`stylegan3-t`, `stylegan3-r`).
-- Tools for interactive visualization (`visualizer.py`), spectral analysis (`avg_spectra.py`), and video generation (`gen_video.py`).
-- Equivariance metrics (`eqt50k_int`, `eqt50k_frac`, `eqr50k`).
-- General improvements: reduced memory usage, slightly faster training, bug fixes.
-
-Compatibility:
-- Compatible with old network pickles created using [stylegan2-ada](https://github.com/NVlabs/stylegan2-ada) and [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch).  (Note: running old StyleGAN2 models on StyleGAN3 code will produce the same results as running them on stylegan2-ada/stylegan2-ada-pytorch.  To benefit from the StyleGAN3 architecture, you need to retrain.)
-- Supports old StyleGAN2 training configurations, including ADA and transfer learning. See [Training configurations](./docs/configs.md) for details.
-- Improved compatibility with Ampere GPUs and newer versions of PyTorch, CuDNN, etc.
-
-## Synthetic image detection
-
-While new generator approaches enable new media synthesis capabilities, they may also present a new challenge for AI forensics algorithms for detection and attribution of synthetic media. In collaboration with digital forensic researchers participating in DARPA's SemaFor program, we curated a synthetic image dataset that allowed the researchers to test and validate the performance of their image detectors in advance of the public release. Please see [here](https://github.com/NVlabs/stylegan3-detector) for more details.
+## Dataset Download
 
 ## Additional material
 
@@ -105,15 +89,6 @@ The `docker run` invocation may look daunting, so let's unpack its contents here
 - ``-v `pwd`:/scratch --workdir /scratch``: mount current running dir (e.g., the top of this git repo on your host machine) to `/scratch` in the container and use that as the current working dir.
 - `-e HOME=/scratch`: let PyTorch and StyleGAN3 code know where to cache temporary files such as pre-trained models and custom PyTorch extension build results. Note: if you want more fine-grained control, you can instead set `TORCH_EXTENSIONS_DIR` (for custom extensions build dir) and `DNNLIB_CACHE_DIR` (for pre-trained model download cache). You want these cache dirs to reside on persistent volumes so that their contents are retained across multiple `docker run` invocations.
 
-## Interactive visualization
-
-This release contains an interactive model visualization tool that can be used to explore various characteristics of a trained model.  To start it, run:
-
-```.bash
-python visualizer.py
-```
-
-<a href="./docs/visualizer_screen0.png"><img alt="Visualizer screenshot" src="./docs/visualizer_screen0_half.png"></img></a>
 
 ## Using networks from Python
 
@@ -245,52 +220,18 @@ References:
 5. [Alias-Free Generative Adversarial Networks](https://nvlabs.github.io/stylegan3), Karras et al. 2021
 6. [Improved Techniques for Training GANs](https://arxiv.org/abs/1606.03498), Salimans et al. 2016
 
-## Spectral analysis
 
-The easiest way to inspect the spectral properties of a given generator is to use the built-in FFT mode in `visualizer.py`. In addition, you can visualize average 2D power spectra (Appendix A, Figure 15) as follows:
 
-```.bash
-# Calculate dataset mean and std, needed in subsequent steps.
-python avg_spectra.py stats --source=~/datasets/ffhq-1024x1024.zip
-
-# Calculate average spectrum for the training data.
-python avg_spectra.py calc --source=~/datasets/ffhq-1024x1024.zip \
-    --dest=tmp/training-data.npz --mean=112.684 --std=69.509
-
-# Calculate average spectrum for a pre-trained generator.
-python avg_spectra.py calc \
-    --source=https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/1/files/stylegan3-r-ffhq-1024x1024.pkl \
-    --dest=tmp/stylegan3-r.npz --mean=112.684 --std=69.509 --num=70000
-
-# Display results.
-python avg_spectra.py heatmap tmp/training-data.npz
-python avg_spectra.py heatmap tmp/stylegan3-r.npz
-python avg_spectra.py slices tmp/training-data.npz tmp/stylegan3-r.npz
-```
-
-<a href="./docs/avg_spectra_screen0.png"><img alt="Average spectra screenshot" src="./docs/avg_spectra_screen0_half.png"></img></a>
-
-## License
-
-Copyright &copy; 2021, NVIDIA Corporation & affiliates. All rights reserved.
-
-This work is made available under the [Nvidia Source Code License](https://github.com/NVlabs/stylegan3/blob/main/LICENSE.txt).
 
 ## Citation
 
 ```
-@inproceedings{Karras2021,
-  author = {Tero Karras and Miika Aittala and Samuli Laine and Erik H\"ark\"onen and Janne Hellsten and Jaakko Lehtinen and Timo Aila},
-  title = {Alias-Free Generative Adversarial Networks},
-  booktitle = {Proc. NeurIPS},
-  year = {2021}
+@inproceedings{lee2022sound,
+  title={Sound-Guided Semantic Video Generation},
+  author={Lee, Seung Hyun and Oh, Gyeongrok and Byeon, Wonmin and Kim, Chanyoung and Ryoo, Won Jeong and Yoon, Sang Ho and Cho, Hyunjun and Bae, Jihyun and Kim, Jinkyu and Kim, Sangpil},
+  booktitle={Computer Vision--ECCV 2022: 17th European Conference, Tel Aviv, Israel, October 23--27, 2022, Proceedings, Part XVII},
+  pages={34--50},
+  year={2022},
+  organization={Springer}
 }
 ```
-
-## Development
-
-This is a research reference implementation and is treated as a one-time code drop. As such, we do not accept outside code contributions in the form of pull requests.
-
-## Acknowledgements
-
-We thank David Luebke, Ming-Yu Liu, Koki Nagano, Tuomas Kynk&auml;&auml;nniemi, and Timo Viitanen for reviewing early drafts and helpful suggestions. Fr&eacute;do Durand for early discussions. Tero Kuosmanen for maintaining our compute infrastructure. AFHQ authors for an updated version of their dataset. Getty Images for the training images in the Beaches dataset. We did not receive external funding or additional revenues for this project.
