@@ -2,7 +2,6 @@
 ## Sound-Guided Semantic Video Generation<br><sub>Official PyTorch implementation of the ECCV 2022 paper</sub>
 
 
-**Alias-Free Generative Adversarial Networks**<br>
 Seung Hyun Lee<br>
 https://kuai-lab.github.io/eccv2022sound/<br>
 
@@ -11,10 +10,10 @@ https://kuai-lab.github.io/eccv2022sound/<br>
 
 ## Dataset Download
 
+- [Landscape 4K video Link csv](https://kr.object.ncloudstorage.com/eccv2022/dataset/DATASET.csv)
+
 ## Additional material
 
-- [Result videos](https://nvlabs-fi-cdn.nvidia.com/stylegan3/videos/)
-- [Curated example images](https://nvlabs-fi-cdn.nvidia.com/stylegan3/images/)
 - [StyleGAN3 pre-trained models](https://ngc.nvidia.com/catalog/models/nvidia:research:stylegan3) for config T (translation equiv.) and config R (translation and rotation equiv.)
   > <sub>Access individual networks via `https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/1/files/<MODEL>`, where `<MODEL>` is one of:</sub><br>
   > <sub>`stylegan3-t-ffhq-1024x1024.pkl`, `stylegan3-t-ffhqu-1024x1024.pkl`, `stylegan3-t-ffhqu-256x256.pkl`</sub><br>
@@ -114,10 +113,6 @@ img = G.synthesis(w, noise_mode='const', force_fp32=True)
 ```
 
 Please refer to [`gen_images.py`](./gen_images.py) for complete code example.
-
-## Preparing datasets
-
-Datasets are stored as uncompressed ZIP archives containing uncompressed PNG files and a metadata file `dataset.json` for labels. Custom datasets can be created from a folder containing images; see [`python dataset_tool.py --help`](./docs/dataset-tool-help.txt) for more information. Alternatively, the folder can also be used directly as a dataset, without running it through `dataset_tool.py` first, but doing so may lead to suboptimal performance.
 
 **FFHQ**: Download the [Flickr-Faces-HQ dataset](https://github.com/NVlabs/ffhq-dataset) as 1024x1024 images and create a zip archive using `dataset_tool.py`:
 
